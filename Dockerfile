@@ -1,3 +1,4 @@
+
 FROM nginx:alpine
 
 # Set the working directory in the container
@@ -8,6 +9,9 @@ WORKDIR /etc/nginx
 COPY clms.conf /etc/nginx/conf.d/
 COPY api_errors_json.conf /etc/nginx/
 COPY ssl /ssl
+
+COPY gateway.conf /etc/nginx/conf.d/
+
 
 # Expose port 80 to the outside world
 EXPOSE 80
