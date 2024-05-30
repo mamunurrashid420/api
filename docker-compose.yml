@@ -1,0 +1,196 @@
+version: "3.9"
+
+networks:
+    clms-net:
+        name: clms-net
+        driver: bridge
+
+services:
+    gateway:
+        image: gateway:1.0
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - 80:80
+        networks:
+            - clms-net
+
+    # auth frontend
+    auth-front:
+        image: auth-front:1.0
+        build:
+            context: /var/www/html/auth-frontend
+            dockerfile: Dockerfile
+        ports:
+            - 82:82
+        networks:
+            - clms-net
+
+    # auth service
+    auth-service:
+        image: auth-service:1.0
+        build:
+            context: /root/HESP/auth-service
+            dockerfile: Dockerfile
+        ports:
+            - 6000:6000
+        networks:
+            - clms-net
+
+    # user service
+    user-service:
+        image: user-service:1.0
+        build:
+            context: /root/HESP/user-service # Update this path if necessary
+            dockerfile: dockerfile # Update this if your Dockerfile has a different name
+        ports:
+            - 8002:3000
+        networks:
+            - clms-net
+
+    # master-app service
+    master-service:
+        image: master-service:1.0
+        build:
+            context: /root/HESP/master-settings-service # Update this path if necessary
+            dockerfile: Dockerfile # Update this if your Dockerfile has a different name
+        ports:
+            - 8003:8000
+        networks:
+            - clms-net
+
+    #location-service
+    location-service:
+        image: location-service:1.0
+        build:
+            context: /root/HESP/location-service # Update this path if necessary
+            dockerfile: dockerfile # Update this if your Dockerfile has a different name
+        # environment:
+        #     - APP_ENV=${APP_ENV}
+        ports:
+            - 8004:3000
+
+    #course-app service
+    course-service:
+        image: course-service:1.0
+        build:
+            context: /root/HESP/course-service # Update this path if necessary
+            dockerfile: Dockerfile # Update this if your Dockerfile has a different name
+        ports:
+            - 8005:8000
+        networks:
+            - clms-net
+
+    # batch service
+    batch-service:
+        image: batch-service:1.0
+        build:
+            context: /root/HESP/batch-service # Update this path if necessary
+            dockerfile: dockerfile # Update this if your Dockerfile has a different name
+        ports:
+            - 8006:8000
+        networks:
+            - clms-net
+
+    # circular service
+    circular-service:
+        image: circular-service:1.0
+        build:
+            context: /root/HESP/circular-service # Update this path if necessary
+            dockerfile: Dockerfile # Update this if your Dockerfile has a different name
+        # environment:
+        #     - APP_ENV=${APP_ENV}
+        ports:
+            - 8007:8000
+
+    #assessment-service
+    assessment-service:
+        image: assessment-service:1.0
+        build:
+            context: /root/HESP/assessment-service # Update this path if necessary
+            dockerfile: dockerfile # Update this if your Dockerfile has a different name
+        # environment:
+        #     - APP_ENV=${APP_ENV}
+        ports:
+            - 8010:8000
+        networks:
+            - clms-net
+
+    #assignment-service
+    assignment-service:
+        image: assignment-service:1.0
+        build:
+            context: /root/HESP/assignment-service # Update this path if necessary
+            dockerfile: dockerfile # Update this if your Dockerfile has a different name
+        # environment:
+        #     - APP_ENV=${APP_ENV}
+        ports:
+            - 8011:8000
+
+    # book service
+    book-service:
+        image: book-service:1.0
+        build:
+            context: /root/HESP/book-service # Update this path if necessary
+            dockerfile: dockerfile # Update this if your Dockerfile has a different name
+        ports:
+            - 8012:8000
+        networks:
+            - clms-net
+        volumes:
+            - book-volume:/app/public/uploads
+
+    # notification service
+    notification-service:
+        image: notification-service:1.0
+        build:
+            context: /root/HESP/noti-service # Update this path if necessary
+            dockerfile: dockerfile # Update this if your Dockerfile has a different name
+        ports:
+            - 8022:8000
+        networks:
+            - clms-net
+        volumes:
+            - notification-volume:/app/public/uploads
+    #assignment-service
+    plc-service:
+        image: plc-service:1.0
+        build:
+            context: /root/HESP/plc-service # Update this path if necessary
+            dockerfile: dockerfile # Update this if your Dockerfile has a different name
+        # environment:
+        #     - APP_ENV=${APP_ENV}
+        ports:
+            - 8025:8000
+        networks:
+            - clms-net
+
+    #igt-service
+    igt-service:
+        image: igt-service:1.0
+        build:
+            context: /root/HESP/igt-backend # Update this path if necessary
+            dockerfile: dockerfile # Update this if your Dockerfile has a different name
+        # environment:
+        #     - APP_ENV=${APP_ENV}
+        ports:
+            - 8027:8000
+        networks:
+            - clms-net
+        volumes:
+            - igt-volume:/app/public
+
+    video-service:
+        image: video-service:1.0
+        build:
+            context: /root/HESP/video-service # Update this path if necessary
+            dockerfile: Dockerfile # Update this if your Dockerfile has a different name
+        # environment:
+        #     - APP_ENV=${APP_ENV}
+        ports:
+            - 9002:9002
+volumes:
+    book-volume:
+    igt-volume:
+    notification-volume:
