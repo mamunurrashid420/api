@@ -16,7 +16,7 @@ sudo ln -s /etc/nginx/sites-available/clms /etc/nginx/sites-enabled/
 ```
 
 -   Put api_errors_json.conf file to /etc/nginx/ directory
-
+### CLOUD Flare dns 
 ### Want to install NGINX?
 
 -   [Installation Guide](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-20-04)
